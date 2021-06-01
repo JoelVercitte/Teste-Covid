@@ -1,11 +1,18 @@
 package com.covid.entidade;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name="cartoes")
@@ -22,6 +29,10 @@ public class Cartao {
 	private String data_vencimento;
 	private String cvv;
 	private double saldo;
+	
+	@OneToMany(mappedBy="cartao", orphanRemoval = true)
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	private List<Telefone> telefones = new ArrayList<Telefone>();
 
 	public int getId() {
 		return id;
@@ -64,6 +75,13 @@ public class Cartao {
 	}
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
+	}
+	
+	public List<Telefone> getTelefones() {
+		return telefones;
+	}
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 	@Override
 	public String toString() {
